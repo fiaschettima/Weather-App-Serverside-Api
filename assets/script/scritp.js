@@ -74,7 +74,7 @@ function runCitySearch(searchInformation) {
                 currentCityCard.appendChild(currentTemp);
 
                 var currentWindS = document.createElement('p')
-                currentWindS.textContent = 'Wind: ' + data.current.wind_speed;
+                currentWindS.textContent = 'Wind: ' + data.current.wind_speed + ' MPH';
                 currentCityCard.appendChild(currentWindS);
 
                 var currentHumidity = document.createElement('p')
@@ -86,18 +86,56 @@ function runCitySearch(searchInformation) {
                 currentUV.appendChild(UVIN);
                 currentCityCard.appendChild(currentUV);
             })
-            var fivedayAPI = 'api.openweathermap.org/data/2.5/forecast?lat=' + cityLat + '&lon=' + cityLong + '&units=imperial&appid=' + APIkey;
-            console.log(cityLat +' '+ cityLong)
+            var fivedayAPI = 'https://api.openweathermap.org/data/2.5/onecall?lat='+cityLat+'&lon='+cityLong+'&exclude=current,minutely,hourly,alerts&units=imperial&appid='+ APIkey;
             console.log(fivedayAPI)
-            fetch(fivedayAPI)
-            .then(function(response){
+            fetch(fivedayAPI).then(function(response){
                 return response.json();
             }).then(function(data){
                 console.log(data);
-            });
+                for(i=0; i < 5; i++){
+                var dailyContainer = document.createElement('div');
+                var dailyContHead = document.createElement('div')
+                var dailyContBody = document.createElement('div')
+                var futureDate = document.createElement('h5')
+                var futureTemp = document.createElement('p')
+                var futureWind = document.createElement('p')
+                var futureHumid = document.createElement('p')
+                var futureIcon = document.createElement('img')
+                var dailyContBody = document.createElement('div')
+                var classes = ['card', 'text-bg-light', 'mb-3'];
+                // document.getElementById('fiveDay').classList.remove('hidden');
+                dailyContainer.classList.add(classes);
+                dailyContHead.classList.add('card-header');
+                dailyContBody.classList.add('card-body');
+                futureDate.classList.add('card-title');
+                // futureInfo.classList.add('card-text');
+                var convertingUNIX = new Date(data.daily[i].dt * 1000);
+                var humanFormat = convertingUNIX.toLocaleString();
+                dailyContHead.textContent = humanFormat;
+                futureTemp.textContent = 'High Temp: ' + data.daily[i].temp.max;
+                futureWind.textContent = 'Wind: '+ data.daily[i].wind_speed;
+                futureHumid.textContent = 'Humidity: ' + data.daily[i].humidity;
+                futureIcon.setAttribute('src',  'https://openweathermap.org/img/w/' + data.daily[i].weather[0].icon + '.png');
+                futureIcon.setAttribute('alt',  'current weather icon');
+                dailyContainer.appendChild(dailyContHead);
+                dailyContBody.appendChild(futureIcon);
+                dailyContBody.appendChild(futureTemp);
+                dailyContBody.appendChild(futureWind);
+                dailyContBody.appendChild(futureHumid);
+                dailyContainer.appendChild(dailyContBody);
+                document.getElementById('cardContainer').appendChild(dailyContainer);               
+                }
+            })
     });
   }
 
 // https://developers.google.com/maps/documentation/javascript/places#places_photos
 // add background imaget based on city name
 
+/* <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+  <div class="card-header">Header</div>
+  <div class="card-body">
+    <h5 class="card-title">Dark card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div> */
