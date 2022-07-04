@@ -1,0 +1,24 @@
+*{
+    box-sizing: border-box;
+}
+.pageHead{
+    background: linear-gradient(rgb(186, 134, 224), indigo);
+}
+
+.cityFinder input[type=text]{
+    float: left;
+    width: 80%;
+    height: 3em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.cityFinder button{
+    float: left;
+    width: 20%;
+    height: 3em;
+    border-bottom-left-radius:  0;
+    border-top-left-radius: 0;
+}
+.cityHistory{
+    margin-top: 4em;
+}
