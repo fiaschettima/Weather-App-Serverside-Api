@@ -7,49 +7,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link href="./assets/style/style.css" rel="stylesheet">
+    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
   </head>
   <body>
     
     <div class="container-fluid">
       <div class="row pageHead text-center">
         <h1>Weather App </h1>
-      </div>
-      <div class="row">
+    </div>
+    <div class="row">
         <!-- left half of page city name information -->
-        <div class=" col-lg-3 col-md-3 col-12">
-          <h4>Enter a City:</h4>
-          <div class="form-floating mb-3 cityFinder">
-            <input type="text" class="form-control" id="citySelctor" placeholder="Saratoga Springs">
-            <label for="citySelctor">City Name</label>
-            <button type="submit" class="btn btn-dark" id="searchButton"><i class="fa fa-search"></i></button>
-          </div>
-          <div class="card text-center cityHistory" style="width: 100%;">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">An item</li>
-              <li class="list-group-item">A second item</li>
-              <li class="list-group-item">A third item</li>
-            </ul>
-            <div class="card-footer">
-              <button type="button" id="clearHistory;)">Clear Search History</button>
-            </div>
+      <div class=" col-lg-3 col-md-3 col-12">
+        <h4>Enter a City:</h4>
+        <div class="form-floating mb-3 cityFinder">
+          <input type="text" class="form-control" id="citySelctor" placeholder="Saratoga Springs">
+          <label for="citySelctor">City Name</label>
+          <button type="submit" class="btn btn-dark" id="searchButton"><i class="fa fa-search"></i></button>
+        </div>
+      
+        <div class="card text-center cityHistory" style="width: 100%;">
+          <ul class="list-group list-group-flush" id="searchHistory"></ul>
+          <!-- <div class="card-footer" id="bottomHist"></div>
+          </div> -->
+          <!-- add clear search history after all other requirements are finished -->
+        </div>
+      </div>
+<!-- right half of page weather information -->
+      <div class="col-lg-9 col-md-9 col-12">
+        <!-- city card row -->
+        <div class="row">
+          <div class="col-12" id="currentCityInfo">
           </div>
         </div>
-          <!-- right half of page weather information -->
-          <div class="col-lg-9 col-md-9 col-12">
-            <!-- city card row -->
-             <div class="row">
-                <div class="col-12">
-                    city info here
-                </div>
-             </div>
-             <!-- 5-day city -->
-             <div class="row">
-                <div class="col-12">day 1 </div>
-                <div class="col-12">day 2</div>
-                <div class="col-12">day 3</div>
-                <div class="col-12">day 4</div>
-                <div class="col-12"> day 5</div>
-             </div>
+        <!-- 5-day city -->
+        <div class="row hidden"><h4>5-day forecast:</h4></div>
+        <div class="row">
+          <div class="col-12"></div>
+          <div class="col-12"></div>
+          <div class="col-12"></div>
+          <div class="col-12"></div>
+          <div class="col-12"></div>
         </div>
       </div>
     </div>

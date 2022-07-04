@@ -1,40 +1,103 @@
-// http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
-// API key for GeoCoding parameters  : q(required)-> city name,state code//// appid reuiqred API key get my own
+// Global Vars-----------------------------------------------------------------------
+var cityInput = document.getElementById('citySelctor');
+var enterSearch = document.getElementById('searchButton')
+var searchValue = document.getElementById('citySelctor')
 var APIkey = 'd9bce79fe872e513ee7b58c79fd85200'
+var currentTimeUni = moment().format('X');
+var currentTimeDate = moment().format('LLLL');
+var currentCityCard = document.getElementById('currentCityInfo');
+// event listener for button and enter key for search input field-----------------------------------------------------------------------
+enterSearch.addEventListener('click', function(event){
+    event.preventDefault;
+    var searchInformation = searchValue.value
+    runCitySearch(searchInformation)
+    searchValue.value = "";
+})
+searchValue.addEventListener('keyup', function(event){
+    if(event.code === 'Enter' && searchValue.value !== ''){
+        event.preventDefault;
+        var searchInformation = searchValue.value
+        runCitySearch(searchInformation)
+        searchValue.value = "";
+    }else{return}
+})
+// add event listener to list that runs runcitysearch again based on textcontent of button 
+// Get information from weather source -----------------------------------------------------------------------
+function runCitySearch(searchInformation) {
+    var openWeatherGeoCoding = 'http://api.openweathermap.org/geo/1.0/direct?q='+ searchInformation + '&appid=' + APIkey;
+    fetch(openWeatherGeoCoding)
+      .then(function (response) {
+        return response.json();
+    }).then(function(data){
+        // clear content from previous search
+        currentCityCard.textContent = '';
+        // add if statement here saying if data.name matches any other item dont print new list item
+        var searchedCityItem = document.createElement('li');
+        var searchHistoryContainer = document.getElementById('searchHistory');
+        searchedCityItem.classList.add('list-group-item');
+        searchedCityItem.textContent = data[0].name;
+        searchHistoryContainer.appendChild(searchedCityItem)
+        var currentCityHeading = document.createElement('h4')
+        currentCityHeading.textContent = data[0].name + ": " + currentTimeDate;
+        currentCityCard.appendChild(currentCityHeading);
 
+        console.log(data);
+        var cityLat =data[0].lat;
+        var cityLong = data[0].lon;
+        var oneCallAPI = 'https://api.openweathermap.org/data/2.5/onecall/timemachine?lat='+ cityLat+ '&lon=' + cityLong +'&dt='+currentTimeUni + '&units=imperial&appid=' + APIkey;
+    
+        fetch(oneCallAPI)
+            .then(function(response){
+                return response.json();
+            }).then(function(data){
+                console.log(data);
+                // All data taken and now use to append to page
+                var weatherIcon = document.createElement('img');
+                weatherIcon.setAttribute('src', 'https://openweathermap.org/img/w/' + data.current.weather[0].icon + '.png');
+                weatherIcon.setAttribute('alt', data.current.weather[0].description);
+                currentCityCard.appendChild(weatherIcon);
+                var UVIN = document.createElement('span')
+                UVIN.setAttribute('class', 'UVINcontainer')
+                UVIN.textContent = data.current.uvi;
+                // add if to check value of UV and change spans class to change background color
+                if(data.current.uvi < 5){
+                    UVIN.classList.add('uv_low')
+                }else if( data.current.uvi >= 5 && data.current.uvi < 10){
+                    UVIN.classList.add('uv_middle')
+                }else if(data.current.uvi >= 10){
+                    UVIN.classList.add('uv_high')
+                }else{
+                    UVIN.setAttribute('style', '')
+                }
+                var currentTemp = document.createElement('p')
+                currentTemp.textContent = 'Temp: ' + data.current.temp + ' \u2109';
+                currentCityCard.appendChild(currentTemp);
 
-// https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-// one call api
+                var currentWindS = document.createElement('p')
+                currentWindS.textContent = 'Wind: ' + data.current.wind_speed;
+                currentCityCard.appendChild(currentWindS);
 
+                var currentHumidity = document.createElement('p')
+                currentHumidity.textContent = 'Humidity: ' + data.current.humidity;
+                currentCityCard.appendChild(currentHumidity);
 
-// https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-// current weather data
-
+                var currentUV = document.createElement('p')
+                currentUV.textContent = 'UV Index: ';
+                currentUV.appendChild(UVIN);
+                currentCityCard.appendChild(currentUV);
+            })
+            var fivedayAPI = 'api.openweathermap.org/data/2.5/forecast?lat=' + cityLat + '&lon=' + cityLong + '&units=imperial&appid=' + APIkey;
+            console.log(cityLat +' '+ cityLong)
+            console.log(fivedayAPI)
+            fetch(fivedayAPI)
+            .then(function(response){
+                return response.json();
+            }).then(function(data){
+                console.log(data);
+            });
+    });
+  }
 
 // https://developers.google.com/maps/documentation/javascript/places#places_photos
 // add background imaget based on city name
 
-
-
-// var requestUrl = 'https://api.github.com/orgs/nodejs/repos?per_page=5';
-// // var requestUrl = 'https://api.github.com/orgs/nodejs/repo?per_page=5';
-
-// var responseText = document.getElementById('response-text');
-
-function getApi(requestUrl) {
-  fetch(requestUrl)
-    .then(function (response) {
-      console.log(response);
-      // We check whether the response.status equals 200, as follows:
-      if (response.status === 200) {
-      	//If it does, we assign the status code from response.status to the textContent
-        responseText.textContent = response.status;
-      }
-      // we return response.json()
-      return response.json();
-  }).then(function(data){
-    console.log(data);
-  });
-}
-
-getApi(requestUrl);
