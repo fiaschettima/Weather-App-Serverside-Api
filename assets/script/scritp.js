@@ -6,18 +6,19 @@ var APIkey = 'd9bce79fe872e513ee7b58c79fd85200'
 var currentTimeUni = moment().format('X');
 var currentTimeDate = moment().format('LLLL');
 var currentCityCard = document.getElementById('currentCityInfo');
+var savedCities = [];
 // event listener for button and enter key for search input field-----------------------------------------------------------------------
 enterSearch.addEventListener('click', function(event){
     event.preventDefault;
-    var searchInformation = searchValue.value
-    runCitySearch(searchInformation)
+    var searchInformation = searchValue.value;
+    runCitySearch(searchInformation);
     searchValue.value = "";
 })
 searchValue.addEventListener('keyup', function(event){
     if(event.code === 'Enter' && searchValue.value !== ''){
         event.preventDefault;
-        var searchInformation = searchValue.value
-        runCitySearch(searchInformation)
+        var searchInformation = searchValue.value;
+        runCitySearch(searchInformation);
         searchValue.value = "";
     }else{return}
 })
@@ -37,17 +38,21 @@ function runCitySearch(searchInformation) {
     }).then(function(data){
         // clear content from previous search
         currentCityCard.textContent = '';
-        // add if statement here saying if data.name matches any other item dont print new list item
-        var searchedCityItem = document.createElement('li');
         var searchHistoryContainer = document.getElementById('searchHistory');
+        var searchedCityItem = document.createElement('li');
         searchedCityItem.classList.add('list-group-item' , 'prevCityList');
+        searchedCityItem.setAttribute('data-local', data[0].name)
+        // add if statement here saying if data.name matches any other item dont print new list item
+        // if(searchHistoryContainer.indexOf(data[0].name)){
         searchedCityItem.textContent = data[0].name;
+        savedCities.push( data[0].name);
+        localStorage.setItem('srcHis', JSON.stringify(savedCities));
         searchHistoryContainer.appendChild(searchedCityItem)
         var currentCityHeading = document.createElement('h4')
         currentCityHeading.textContent = data[0].name + ": " + currentTimeDate;
         currentCityCard.appendChild(currentCityHeading);
-
-        console.log(data);
+        // }
+        // console.log(data)
         var cityLat =data[0].lat;
         var cityLong = data[0].lon;
         var oneCallAPI = 'https://api.openweathermap.org/data/2.5/onecall/timemachine?lat='+ cityLat+ '&lon=' + cityLong +'&dt='+currentTimeUni + '&units=imperial&appid=' + APIkey;
@@ -56,7 +61,7 @@ function runCitySearch(searchInformation) {
             .then(function(response){
                 return response.json();
             }).then(function(data){
-                console.log(data);
+                // console.log(data);
                 // All data taken and now use to append to page
                 var weatherIcon = document.createElement('img');
                 weatherIcon.setAttribute('src', 'https://openweathermap.org/img/w/' + data.current.weather[0].icon + '.png');
@@ -93,13 +98,14 @@ function runCitySearch(searchInformation) {
                 currentCityCard.appendChild(currentUV);
             })
             var fivedayAPI = 'https://api.openweathermap.org/data/2.5/onecall?lat='+cityLat+'&lon='+cityLong+'&exclude=current,minutely,hourly,alerts&units=imperial&appid='+ APIkey;
-            console.log(fivedayAPI)
+            // console.log(fivedayAPI)
             fetch(fivedayAPI).then(function(response){
                 return response.json();
             }).then(function(data){
-                console.log(data);
+                // console.log(data);
                 document.getElementById('cardContainer').innerHTML = '';
-                for(i=0; i < 5; i++){
+                // i set to 1 because 0 would be today and today is already shown in active card
+                for(i=1; i < 5; i++){
                 var dailyContainer = document.createElement('div');
                 var dailyContHead = document.createElement('div')
                 var dailyContBody = document.createElement('div')
@@ -111,7 +117,7 @@ function runCitySearch(searchInformation) {
                 var dailyContBody = document.createElement('div')
                 // var classes = ['card', 'text-bg-light', 'mb-3','col-12', 'col-md-3', 'col-lg-4'];
                 // document.getElementById('fiveDay').classList.remove('hidden');
-                dailyContainer.classList.add('card', 'text-bg-light', 'mb-3', 'col-12', 'col-md-3', 'col-lg-4');
+                dailyContainer.classList.add('card', 'text-bg-light', 'mb-3', 'col-12', 'col-md-6', 'col-lg-4');
                 dailyContHead.classList.add('card-header');
                 dailyContBody.classList.add('card-body');
                 futureDate.classList.add('card-title');
@@ -139,10 +145,3 @@ function runCitySearch(searchInformation) {
 // https://developers.google.com/maps/documentation/javascript/places#places_photos
 // add background imaget based on city name
 
-/* <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
-  <div class="card-body">
-    <h5 class="card-title">Dark card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-</div> */
