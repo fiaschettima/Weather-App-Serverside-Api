@@ -21,6 +21,12 @@ searchValue.addEventListener('keyup', function(event){
         searchValue.value = "";
     }else{return}
 })
+var seachHistList = document.getElementById('searchHistory');
+seachHistList.addEventListener('click', function(event){
+    var pressed = event.target
+    console.log(pressed.textContent)
+    runCitySearch(pressed.textContent);
+})
 // add event listener to list that runs runcitysearch again based on textcontent of button 
 // Get information from weather source -----------------------------------------------------------------------
 function runCitySearch(searchInformation) {
@@ -34,7 +40,7 @@ function runCitySearch(searchInformation) {
         // add if statement here saying if data.name matches any other item dont print new list item
         var searchedCityItem = document.createElement('li');
         var searchHistoryContainer = document.getElementById('searchHistory');
-        searchedCityItem.classList.add('list-group-item');
+        searchedCityItem.classList.add('list-group-item' , 'prevCityList');
         searchedCityItem.textContent = data[0].name;
         searchHistoryContainer.appendChild(searchedCityItem)
         var currentCityHeading = document.createElement('h4')
@@ -78,7 +84,7 @@ function runCitySearch(searchInformation) {
                 currentCityCard.appendChild(currentWindS);
 
                 var currentHumidity = document.createElement('p')
-                currentHumidity.textContent = 'Humidity: ' + data.current.humidity;
+                currentHumidity.textContent = 'Humidity: ' + data.current.humidity + '%';
                 currentCityCard.appendChild(currentHumidity);
 
                 var currentUV = document.createElement('p')
@@ -92,6 +98,7 @@ function runCitySearch(searchInformation) {
                 return response.json();
             }).then(function(data){
                 console.log(data);
+                document.getElementById('cardContainer').innerHTML = '';
                 for(i=0; i < 5; i++){
                 var dailyContainer = document.createElement('div');
                 var dailyContHead = document.createElement('div')
@@ -102,9 +109,9 @@ function runCitySearch(searchInformation) {
                 var futureHumid = document.createElement('p')
                 var futureIcon = document.createElement('img')
                 var dailyContBody = document.createElement('div')
-                var classes = ['card', 'text-bg-light', 'mb-3'];
+                // var classes = ['card', 'text-bg-light', 'mb-3','col-12', 'col-md-3', 'col-lg-4'];
                 // document.getElementById('fiveDay').classList.remove('hidden');
-                dailyContainer.classList.add(classes);
+                dailyContainer.classList.add('card', 'text-bg-light', 'mb-3', 'col-12', 'col-md-3', 'col-lg-4');
                 dailyContHead.classList.add('card-header');
                 dailyContBody.classList.add('card-body');
                 futureDate.classList.add('card-title');
@@ -112,9 +119,9 @@ function runCitySearch(searchInformation) {
                 var convertingUNIX = new Date(data.daily[i].dt * 1000);
                 var humanFormat = convertingUNIX.toLocaleString();
                 dailyContHead.textContent = humanFormat;
-                futureTemp.textContent = 'High Temp: ' + data.daily[i].temp.max;
-                futureWind.textContent = 'Wind: '+ data.daily[i].wind_speed;
-                futureHumid.textContent = 'Humidity: ' + data.daily[i].humidity;
+                futureTemp.textContent = 'High Temp: ' + data.daily[i].temp.max + '\u2109';
+                futureWind.textContent = 'Wind: '+ data.daily[i].wind_speed + 'MPH';
+                futureHumid.textContent = 'Humidity: ' + data.daily[i].humidity + "%";
                 futureIcon.setAttribute('src',  'https://openweathermap.org/img/w/' + data.daily[i].weather[0].icon + '.png');
                 futureIcon.setAttribute('alt',  'current weather icon');
                 dailyContainer.appendChild(dailyContHead);

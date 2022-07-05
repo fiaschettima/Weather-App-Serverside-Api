@@ -45,3 +45,17 @@
 .hidden{
     display: none;
 }
+#currentCityInfo{
+    border: 1px solid black;
+    margin-top: 2em;
+}
+#fiveDay{
+    margin: 1em;
+}
+.prevCityList{
+    background-color: antiquewhite;
+}
+.prevCityList:hover{
+    background-color: rgb(209, 189, 164);
+    cursor: pointer;
+}
