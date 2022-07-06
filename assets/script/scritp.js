@@ -157,14 +157,13 @@ function runCitySearch(searchInformation) {
     // console.log(JSON.parse(localStorage.getItem('search')));
     var gotItem = JSON.parse(localStorage.getItem('search'));
     // console.log(gotItem);
+    if(gotItem.length == null){return}else{
     for(i=0; i<gotItem.length; i++){
         savedCities.push( gotItem[i]);
         formList(gotItem[i]);
     }
-    // gotItem.forEach(element => {
-    //     formList(element);
-    // });
-  }
+}
+}
 reFreshPage()
 // https://developers.google.com/maps/documentation/javascript/places#places_photos
 // add background imaget based on city name
