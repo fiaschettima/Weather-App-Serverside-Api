@@ -2,9 +2,12 @@
     box-sizing: border-box;
 }
 .pageHead{
-    background: linear-gradient(rgb(186, 134, 224), indigo);
+    background: linear-gradient(rgb(11, 24, 99), rgb(70, 150, 216));
+    color: white;
 }
-
+body{
+    background-color: rgba(199, 195, 195, 0.556);
+}
 .cityFinder input[type=text]{
     float: left;
     width: 80%;
@@ -53,9 +56,32 @@
     margin: 1em;
 }
 .prevCityList{
-    background-color: antiquewhite;
+    background-color:  rgb(70, 150, 216);
+    color: white;
 }
 .prevCityList:hover{
-    background-color: rgb(209, 189, 164);
+    background-color: rgb(11, 24, 99);
     cursor: pointer;
+}
+/* same as bootstrap code just changed colors to fit better */
+#searchButton{
+    --bs-btn-color: #fff;
+    --bs-btn-bg: rgb(70, 150, 216);
+    --bs-btn-border-color: rgb(70, 150, 216);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: rgb(11, 24, 99);
+    --bs-btn-hover-border-color: #1a1e21;
+    --bs-btn-focus-shadow-rgb: 66,70,73;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #1a1e21;
+    --bs-btn-active-border-color: #191c1f;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #212529;
+    --bs-btn-disabled-border-color: #212529;
+}
+.card,
+#currentCityInfo{
+    color: white;
+    background: linear-gradient(rgba(70, 150, 216, 0.767), rgba(0, 140, 255, 0.729));
 }
