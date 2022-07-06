@@ -107,7 +107,7 @@ function runCitySearch(searchInformation) {
                 // console.log(data);
                 document.getElementById('cardContainer').innerHTML = '';
                 // i set to 1 because 0 would be today and today is already shown in active card
-                for(i=1; i < 5; i++){
+                for(i=1; i < 6; i++){
                 var dailyContainer = document.createElement('div');
                 var dailyContHead = document.createElement('div');
                 var dailyContBody = document.createElement('div');
