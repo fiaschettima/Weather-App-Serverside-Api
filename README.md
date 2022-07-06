@@ -1,6 +1,4 @@
 # Weather-App-Serverside-Api
-# workDayScheduler-HW5
-# codingQuiz
 
 [Link to the Live webpage](https://fiaschettima.github.io/Weather-App-Serverside-Api/)
 
