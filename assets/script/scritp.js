@@ -32,7 +32,7 @@ seachHistList.addEventListener('click', function(event){
 // add event listener to list that runs runcitysearch again based on textcontent of button 
 // Get information from weather source -----------------------------------------------------------------------
 function runCitySearch(searchInformation) {
-    var openWeatherGeoCoding = 'http://api.openweathermap.org/geo/1.0/direct?q='+ searchInformation + '&appid=' + APIkey;
+    var openWeatherGeoCoding = 'https://api.openweathermap.org/geo/1.0/direct?q='+ searchInformation + '&appid=' + APIkey;
     fetch(openWeatherGeoCoding)
       .then(function (response) {
         return response.json();
