@@ -157,7 +157,9 @@ function runCitySearch(searchInformation) {
     // console.log(JSON.parse(localStorage.getItem('search')));
     var gotItem = JSON.parse(localStorage.getItem('search'));
     // console.log(gotItem);
-    if(gotItem == null){return}else{
+    if(gotItem == null){
+        return}
+        else{
     for(i=0; i<gotItem.length; i++){
         savedCities.push( gotItem[i]);
         formList(gotItem[i]);
