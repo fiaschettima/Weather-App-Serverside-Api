@@ -63,7 +63,7 @@ function runCitySearch(searchInformation) {
             .then(function(response){
                 return response.json();
             }).then(function(data){
-                // console.log(data);
+                console.log(data);
                 // All data taken and now use to append to page
                 var weatherIcon = document.createElement('img');
                 weatherIcon.setAttribute('src', 'https://openweathermap.org/img/w/' + data.current.weather[0].icon + '.png');
